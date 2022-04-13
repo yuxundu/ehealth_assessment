@@ -1,4 +1,16 @@
 # eHealth Assessment
+## Version(0.0.1-SNAPSHOT)
+
+Include:
+
+1. Rest Controller
+2. JPA Repository
+3. DTO Object Mapping
+4. Integration Test
+5. Unit Test
+6. Rest Controller Error Handler
+7. Rest API Online Document (based on Open API)
+`
 ## Starting the Server
 ### 1.Modify database connect information
 
