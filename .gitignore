@@ -24,4 +24,4 @@ hs_err_pid*
 
 # Default ignored files
 /.idea/
-/.target/
+/target/
