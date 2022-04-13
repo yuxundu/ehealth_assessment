@@ -16,7 +16,7 @@ replace the  database connection's information  in application.yml and applicati
 
 ###  3.Start Server
 
-`run: project_home/mvn clean package`
+`run: project_home/mvn spring-boot:run`
 
 
 > Terminal information:
