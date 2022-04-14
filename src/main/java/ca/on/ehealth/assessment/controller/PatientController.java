@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 
@@ -64,7 +65,7 @@ public class PatientController {
     @GetMapping("/v1/patients/search")
     public Page<PatientDto> searchPatients(@RequestParam(required = false) @PositiveOrZero Integer page,
                                          @RequestParam(required = false) @Min(1) Integer size,
-                                         @RequestParam(required = true) String firstName){
+                                         @RequestParam(required = true) @NotBlank String firstName){
         Pageable pageable = PageConveter.convert(page, size, null);
         Page<Patient> patientPage = patientService.getPatientsByFirstName(firstName,pageable);
         return patientMapper.toDtoPage(patientPage);
