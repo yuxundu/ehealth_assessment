@@ -15,15 +15,20 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 
 /**
  * Patient Controller
  * @author yuxundu
  */
 @RestController
+@Validated
 public class PatientController {
     @Autowired
     PatientMapper patientMapper;
@@ -46,8 +51,8 @@ public class PatientController {
     @Operation(summary = "get all patients ")
     @Transactional(readOnly = true)
     @GetMapping("/v1/patients")
-    public Page<PatientDto> listPatients(@RequestParam(required = false) Integer page,
-                                         @RequestParam(required = false) Integer size){
+    public Page<PatientDto> listPatients(@RequestParam(required = false) @PositiveOrZero Integer page,
+                                         @RequestParam(required = false) @Min(1) Integer size){
         Pageable pageable = PageConveter.convert(page, size, null);
         Page<Patient> patientPage = patientService.getAllPatients(pageable);
         return patientMapper.toDtoPage(patientPage);
@@ -57,8 +62,8 @@ public class PatientController {
     @Operation(summary = "search patients ")
     @Transactional(readOnly = true)
     @GetMapping("/v1/patients/search")
-    public Page<PatientDto> searchPatients(@RequestParam(required = false) Integer page,
-                                         @RequestParam(required = false) Integer size,
+    public Page<PatientDto> searchPatients(@RequestParam(required = false) @PositiveOrZero Integer page,
+                                         @RequestParam(required = false) @Min(1) Integer size,
                                          @RequestParam(required = true) String firstName){
         Pageable pageable = PageConveter.convert(page, size, null);
         Page<Patient> patientPage = patientService.getPatientsByFirstName(firstName,pageable);
@@ -69,7 +74,7 @@ public class PatientController {
     @Operation(summary = "get the specific patients ")
     @Transactional(readOnly = true)
     @GetMapping("/v1/patients/{id}")
-    public ResponseEntity<PatientDto> getPatient(@PathVariable Long id){
+    public ResponseEntity<PatientDto> getPatient(@PathVariable @Positive Long id){
         Patient  patient = patientService.getPatient(id);
         return ResponseEntity.ok().body(patientMapper.toDto(patient));
     }
